@@ -1,0 +1,12 @@
+PKGROOT=/mod/pkg/callmonitor
+. $PKGROOT/usr/lib/callmonitor/lock.sh
+
+get_it testen und umbenennen
+
+Install-Skript und Patches für m4.* schreiben
+
+ds-mod
+---------------------------------------------------------------
+
+- /mod/pkg/<package>: Symlink auf Package-Root (/ oder /mod)
+- [?] PATH in rc.voip erweitern, so dass telefon-Wrapper gefunden wird.
