@@ -2,7 +2,8 @@ get_it testen und umbenennen
 
 Install-Skript und Patches für m4.* schreiben
 
-ds-mod
----------------------------------------------------------------
-
-- [?] PATH in rc.voip erweitern, so dass telefon-Wrapper gefunden wird.
+Named Pipe für Kommunikation
+testcall-Skript
+Dämon
+    -f  run in foreground
+    -s  stop daemon

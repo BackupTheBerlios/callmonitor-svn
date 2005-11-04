@@ -28,7 +28,6 @@ start() {
 	"$TELEFON" -f a127.0.0.1 > /dev/null 2>&1 < /dev/null
 	exitval=$?
 	if [ "$exitval" -eq 0 ]; then
-		echo started > /var/run/$DAEMON/status
 		echo "done."
 	else
 		echo "failed."
@@ -38,10 +37,10 @@ start() {
 
 stop() {
 	echo -n "Stopping callmonitor..."
-	killall $DAEMON telefon > /dev/null 2>&1
+	killall telefon > /dev/null 2>&1
+	"$DAEMON" -s
 	exitval=$?
 	if [ "$exitval" -eq 0 ]; then
-		echo stopped > /var/run/$DAEMON/status
 		echo "done."
 	else
 		echo "failed."

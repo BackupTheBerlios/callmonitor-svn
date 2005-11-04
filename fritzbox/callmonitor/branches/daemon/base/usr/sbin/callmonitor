@@ -1,4 +1,5 @@
 #!/bin/sh
+readonly PROGRAM="${0##*/}"
 usage() {
 	cat <<EOF
 Usage:	callmonitor [OPTION]... [(0|1) (0|1)]
@@ -30,13 +31,17 @@ EOF
 . "${CALLMONITOR_CFG:=/mod/etc/default.callmonitor/system.cfg}"
 
 # parse options
-TEMP="$(getopt -o '' -l debug,help -n "${0##*/}" -- "$@")"
+TEMP="$(getopt -o 'fs' -l debug,help -n "${0##*/}" -- "$@")"
 if [ $? != 0 ]; then exit 1; fi
 eval "set -- $TEMP"
 
 DEBUG=0
+FOREGROUND=0
+STOP=0
 while true; do
 	case $1 in
+		-f) FOREGROUND=1; shift ;;
+		-s) STOP=1; shift ;;
 		--debug) DEBUG=1; shift ;;
 		--help) usage 1>&2; exit ;;
 		--) shift; break ;;
@@ -198,17 +203,58 @@ __match() {
 	return $RESULT
 }
 
-# a USR1 signal will cause the callmonitor to re-read its configuration
-trap __configure USR1
+__read() {
+	local line
+	while IFS= read -r line
+	do
+		case $line in
+			"IncomingCall"*"caller: "*"called: "*) incoming_call "$line" & ;;
+		esac
+		echo "$line"
+	done
+}
 
-# initial configuration
-__configure
+__work() {
+	# a USR1 signal will cause the callmonitor to re-read its configuration
+	trap __configure USR1
 
-# enter main loop
-while IFS= read -r line
-do
-	case $line in
-		"IncomingCall"*"caller: "*"called: "*) incoming_call "$line" & ;;
-	esac
-	echo "$line"
-done
+	# initial configuration
+	__configure
+
+	# enter main loop
+	while true; do
+		__read < "$FIFO"
+	done
+}
+
+PIDFILE="/var/run/callmonitor.pid"
+
+if [ $STOP -eq 1 ]; then
+	if [ ! -e "$PIDFILE" ]; then
+		echo "$PROGRAM: not running" 2>&1 
+		exit 1
+	else
+		PID="$(cat "$PIDFILE")"
+		kill "$PID"
+		exitcode=$?
+		if [ $exitcode -eq 0 ]; then
+			rm -f "$PIDFILE"
+		fi
+		exit $?
+	fi
+else
+	FIFO="/var/run/callmonitor/fifo"
+	mkdir -p "$(dirname "$FIFO")"
+
+	if [ ! -p "$FIFO" ]; then
+		mknod "$FIFO" p
+	fi
+
+	if [ $FOREGROUND -eq 1 ]; then
+		echo $$ > "$PIDFILE"
+		__work
+	else
+		__work &
+		echo $! > "$PIDFILE"
+	fi
+fi
