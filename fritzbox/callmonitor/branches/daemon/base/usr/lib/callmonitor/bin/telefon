@@ -4,31 +4,17 @@ PATH=/sbin:/usr/sbin:/mod/sbin:/mod/usr/sbin:/bin:/usr/bin:/mod/bin:/mod/usr/bin
 # configure
 . ${CALLMONITOR_CFG:=/mod/etc/default.callmonitor/system.cfg}
 
-run_telefon() {
-	if [ "$CALLMONITOR_TELEFON_IP" != "" ]; then
-		case "$1" in a*) shift ;; esac
-		if [ "$CALLMONITOR_TELEFON_IP" != "*" ]; then
-		set -- "a$CALLMONITOR_TELEFON_IP" "$@"
-		fi
-	fi
-	exec telefon "$@"
-}
-
-FORCE=0
-if [ "$1" = "-f" ]; then shift; FORCE=1; fi
-
 if [ ! -d /var/run/callmonitor ]; then
 	mkdir -p /var/run/callmonitor
 fi
 FIFO="/var/run/callmonitor/fifo"
 BOOTED="/var/run/callmonitor/booted"
+TELEFON="${CALLMONITOR_LIBDIR}/telefon.sh"
 
-if [ "$FORCE" -eq 1 \
-	-o \( ! -e "$BOOTED" -a "$CALLMONITOR_ENABLED" = "yes" \) \
-	]; then
+if [ ! -e "$BOOTED" -a "$CALLMONITOR_ENABLED" = "yes" ]; then
 	touch "$BOOTED"
 	callmonitor
-	run_telefon "$@" > "$FIFO"
+	"$TELEFON" > "$FIFO"
 else
-	run_telefon "$@"
+	"$TELEFON"
 fi

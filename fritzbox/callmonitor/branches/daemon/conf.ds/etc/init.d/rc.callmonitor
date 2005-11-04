@@ -3,7 +3,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/mod/usr/bin:/mod/usr/sbin
 DAEMON=callmonitor
 
 . "${CALLMONITOR_CFG:="/mod/etc/default.$DAEMON/system.cfg"}"
-TELEFON="$CALLMONITOR_LIBDIR/bin/telefon"
+TELEFON="$CALLMONITOR_LIBDIR/telefon.sh"
 
 if [ ! -d /var/run/$DAEMON ]; then
 	mkdir -p /var/run/$DAEMON
@@ -25,7 +25,8 @@ start() {
 	fi
 
 	killall telefon > /dev/null 2>&1
-	"$TELEFON" -f a127.0.0.1 > /dev/null 2>&1 < /dev/null
+	"$DAEMON" > /dev/null
+	"$TELEFON" > /var/run/callmonitor/fifo < /dev/null
 	exitval=$?
 	if [ "$exitval" -eq 0 ]; then
 		echo "done."
@@ -47,7 +48,7 @@ stop() {
 		exit $exitval
 	fi
 	if [ "$1" != "notelefon" ]; then
-		"$TELEFON" a127.0.0.1 > /dev/null 2>&1 < /dev/null
+		"$TELEFON" > /dev/null 2>&1 < /dev/null &
 	fi
 }
 
