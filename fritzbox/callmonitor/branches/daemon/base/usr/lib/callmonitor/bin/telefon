@@ -9,7 +9,7 @@ if [ ! -d /var/run/callmonitor ]; then
 fi
 FIFO="/var/run/callmonitor/fifo"
 BOOTED="/var/run/callmonitor/booted"
-TELEFON="${CALLMONITOR_LIBDIR}/telefon.sh"
+TELEFON="${CALLMONITOR_LIBDIR}/telefon"
 
 if [ ! -e "$BOOTED" -a "$CALLMONITOR_ENABLED" = "yes" ]; then
 	touch "$BOOTED"

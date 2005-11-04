@@ -3,7 +3,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/mod/usr/bin:/mod/usr/sbin
 DAEMON=callmonitor
 
 . "${CALLMONITOR_CFG:="/mod/etc/default.$DAEMON/system.cfg"}"
-TELEFON="$CALLMONITOR_LIBDIR/telefon.sh"
+TELEFON="$CALLMONITOR_LIBDIR/telefon"
 
 if [ ! -d /var/run/$DAEMON ]; then
 	mkdir -p /var/run/$DAEMON
