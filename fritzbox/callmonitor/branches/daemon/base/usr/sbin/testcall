@@ -13,12 +13,12 @@ TEMP="$(getopt -o 'ns' -l 'help' -n "$PROGRAM" -- "$@")"
 if [ $? != 0 ]; then exit 1; fi
 eval "set -- $TEMP"
 
-NT=
-STDOUT=0
+NT=false
+STDOUT=false
 while true; do
 	case $1 in
-		-n) NT=NT; shift ;;
-		-s) STDOUT=1; shift ;;
+		-n) NT=true; shift ;;
+		-s) STDOUT=true; shift ;;
 		--help) usage 1>&2; exit 1 ;;
 		--) shift; break ;;
 		*) shift ;; # should never happen
@@ -31,7 +31,7 @@ MSISDN="$1"
 CALLED="${2:-SIP0}"
 
 # check if fifo exists and if callmonitor is running
-if [ "$STDOUT" -ne 1 ]; then
+if ! $STDOUT; then
 	FIFO="/var/run/callmonitor/fifo"
 	if [ ! -p "$FIFO" ]; then
 		echo "callmonitor's fifo $FIFO does not exist" 1>&2
@@ -45,11 +45,13 @@ fi
 
 # IncomingCall from NT: ID 0, caller: "0927340284" called: "234972"
 # IncomingCall: ID 0, caller: "02938423742" called: "SIP0"
-
-if [ "$STDOUT" -eq 1 ]; then
-	printf 'IncomingCall%s: ID 0, caller: "%s" called: "%s"\n' \
-		"${NT:+" from NT"}" "$MSISDN" "$CALLED"
+if $NT; then
+	PATTERN='\nIncomingCall from NT: ID 0, caller: "%s" called: "%s"\n'
 else
-	printf 'IncomingCall%s: ID 0, caller: "%s" called: "%s"\n' \
-		"${NT:+" from NT"}" "$MSISDN" "$CALLED" > "$FIFO"
+	PATTERN='\nIncomingCall: ID 0, caller: "%s" called: "%s"\n'
+fi
+if $STDOUT; then
+	printf "$PATTERN" "$MSISDN" "$CALLED"
+else
+	printf "$PATTERN" "$MSISDN" "$CALLED" > "$FIFO"
 fi

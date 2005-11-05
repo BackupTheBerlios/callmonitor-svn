@@ -25,8 +25,8 @@ start() {
 	fi
 
 	killall telefon > /dev/null 2>&1
-	"$DAEMON" > /dev/null
-	"$TELEFON" > /var/run/callmonitor/fifo < /dev/null
+	"$DAEMON" > /dev/null 2>&1
+	"$TELEFON" > /var/run/callmonitor/fifo 2> /dev/null < /dev/null
 	exitval=$?
 	if [ "$exitval" -eq 0 ]; then
 		echo "done."
