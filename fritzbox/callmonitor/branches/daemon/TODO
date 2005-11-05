@@ -1,9 +1,3 @@
 get_it testen und umbenennen
 
 Install-Skript und Patches für m4.* schreiben
-
-Named Pipe für Kommunikation
-testcall-Skript
-Dämon
-    -f  run in foreground
-    -s  stop daemon
