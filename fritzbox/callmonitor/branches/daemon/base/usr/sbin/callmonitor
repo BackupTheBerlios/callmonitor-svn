@@ -69,7 +69,7 @@ fi
 __configure() {
 	local ACTIONSDIR ACTIONS
 	for ACTIONSDIR in "$CALLMONITOR_LIBDIR/actions.d" \
-	"$CALLMONITOR_LIBDIR/actions.local.d"; do
+		"$CALLMONITOR_LIBDIR/actions.local.d"; do
 		for ACTIONS in "$ACTIONSDIR"/*.sh; do
 			if [ -r "$ACTIONS" ]; then
 				__debug "including $ACTIONS"
@@ -88,8 +88,8 @@ __incoming_call() {
 	__debug "detected '$line'"
 	case $line in "IncomingCall from NT:"*) NT=1 ;; esac
 	if [ -z "$MSISDN" ]; then
-		MSISDN="ohne Rufnummer/CLIP"
-		CALLER="..."
+		MSISDN="$CALLMONITOR_NOCLIP"
+		CALLER=""
 	else
 		CALLER="$(phonebook $PHONEBOOK_OPTIONS get "$MSISDN")"
 	fi
@@ -228,6 +228,7 @@ __work() {
 }
 
 PIDFILE="/var/run/callmonitor.pid"
+FIFO="/var/run/callmonitor/fifo"
 
 if [ $STOP -eq 1 ]; then
 	if [ ! -e "$PIDFILE" ]; then
@@ -243,7 +244,6 @@ if [ $STOP -eq 1 ]; then
 		exit $?
 	fi
 else
-	FIFO="/var/run/callmonitor/fifo"
 	mkdir -p "$(dirname "$FIFO")"
 
 	if [ ! -p "$FIFO" ]; then

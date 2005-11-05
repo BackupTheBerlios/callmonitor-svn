@@ -62,7 +62,7 @@ __get() {
 	CALLER="$(__get_local "$MSISDN")"
 	if [ $? -ne 0 -a $REVERSE = 1 ]; then
 		CALLER="$(reverse_lookup "$MSISDN")"
-		CALLER="${CALLER:-"Kein Name gefunden"}"
+		CALLER="${CALLER:-"$CALLMONITOR_REVERSE_NOTFOUND"}"
 		__put_local "$MSISDN" "$CALLER" 1>&2 &
 	fi
 	echo "$CALLER"
@@ -72,7 +72,7 @@ __get_local() {
 	local MSISDN="$1" CALLER
 	CALLER="$(sed -ne "/^${PRE_RE}${MSISDN}${SEP_RE}/{
 		s/^${PRE_RE}${MSISDN}${SEP_RE}//p;q}" \
-	"$CALLMONITOR_TRANSIENT" "$CALLMONITOR_PERSISTENT" 2> /dev/null)"
+		"$CALLMONITOR_TRANSIENT" "$CALLMONITOR_PERSISTENT" 2> /dev/null)"
 	if [ ! -z "$CALLER" ]; then
 		__debug "phone book contains {$MSISDN -> $CALLER}"
 		echo "$CALLER"
