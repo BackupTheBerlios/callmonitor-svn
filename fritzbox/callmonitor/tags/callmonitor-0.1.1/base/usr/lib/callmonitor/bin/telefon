@@ -1,0 +1,6 @@
+#!/bin/sh
+RC_TELEFON="/mod/pkg/callmonitor/etc/init.d/rc.telefon"
+RC_CALLMONITOR="/mod/etc/init.d/rc.callmonitor"
+
+$RC_CALLMONITOR start
+$RC_TELEFON start
