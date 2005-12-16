@@ -1,0 +1,13 @@
+require umschreiben, so dass in einem Pfad gesucht wird: praktisch zum Testen
+neuer Funktionen
+
+Sobald Daniel das Framework fertig hat:
+- Schema für Listeners schreiben
+
+== Nicht so wichtig ==
+
+title bei d.*popup/message (?) parametrisierbar machen
+
+ar7cfgconv-"Parser" separieren
+
+(Install-Skript und Patches für m4.* schreiben?)

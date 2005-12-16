@@ -1,0 +1,1 @@
+/mod/pkg/telefon/usr/lib/telefon/rc.sh

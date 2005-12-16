@@ -1,0 +1,142 @@
+#!/bin/sh
+__usage() {
+	cat <<END
+Usage:	phonebook [option]... command [argument]...
+	phonebook {get|exists} 053712931
+	phonebook put 0357937829 "John Smith"
+	phonebook init # prepare SIP to name mapping
+Options:
+	--local	suppress reverse lookup
+	--debug	enable extra debugging output
+	--help	show this help and exit
+END
+}
+
+# configure
+. "${CALLMONITOR_CFG:=/mod/etc/default.callmonitor/system.cfg}"
+
+require phonebook
+require lock
+
+# format of phone book: ${PRE}${NUMBER}${SEP}${NAME}
+PRE="$CALLMONITOR_PREFIX"
+PRE_RE="$CALLMONITOR_PREFIX_RE"
+SEP="$CALLMONITOR_SEPARATOR"
+SEP_RE="$CALLMONITOR_SEPARATOR_RE"
+
+REVERSE=false UPDATE=false DEBUG=false LOCAL=false
+case "$CALLMONITOR_REVERSE" in
+	transient) REVERSE=true UPDATE=false ;;
+	persistent) REVERSE=true UPDATE=true ;;
+esac
+
+# parse options
+TEMP="$(getopt -o '' -l debug,local,help -n "${0##*/}" -- "$@")" || exit 1
+eval "set -- $TEMP"
+
+while true; do
+	case $1 in
+		--local) LOCAL=true ;;
+		--debug) DEBUG=true ;;
+		--help) __usage >&2; exit 1 ;;
+		--) shift; break ;;
+		*) ;; # should never happen
+	esac
+	shift
+done
+
+if $LOCAL; then
+	REVERSE=false
+fi
+
+# where to put new number-name pairs
+if $UPDATE; then
+	PHONEBOOK="$CALLMONITOR_PERSISTENT"
+else
+	PHONEBOOK="$CALLMONITOR_TRANSIENT"
+fi
+
+# set up logging
+if $DEBUG; then
+	__debug() { echo "phonebook: $*" >&2; }
+	__debug "entering DEBUG mode"
+else
+	__debug() :
+fi
+
+__get() {
+	local NUMBER="$1" NUMBER_NORM NAME exitval
+	NAME="$(__get_local "$NUMBER")"
+	exitval=$?
+	if [ $exitval -ne 0 ]; then
+		NUMBER_NORM="$(normalize_address "$NUMBER")"
+		if [ "$NUMBER_NORM" != "$NUMBER" ]; then
+			NAME="$(__get_local "$NUMBER_NORM")"
+			exitval=$?
+		fi
+		if [ $exitval -ne 0 ] && $REVERSE; then
+			NAME="$(reverse_lookup "$NUMBER_NORM")"
+			if [ $? -eq 0 ]; then
+				__put_local "$NUMBER_NORM" "$NAME" >&2 &
+				exitval=0
+			fi
+		fi
+	fi
+	echo "$NAME"
+	return $exitval
+}
+
+__get_local() {
+	local NUMBER="$1" NAME
+	NAME="$(sed -ne "/^${PRE_RE}${NUMBER}${SEP_RE}/{
+		s/^${PRE_RE}${NUMBER}${SEP_RE}/:/p;q}" \
+		"$CALLMONITOR_TRANSIENT" "$CALLMONITOR_PERSISTENT" 2> /dev/null)"
+	if [ ! -z "$NAME" ]; then
+		NAME="${NAME#:}"
+		__debug "phone book contains {$NUMBER -> $NAME}"
+		echo "$NAME"
+		return 0
+	fi
+	return 1
+}
+
+__put_local() {
+	local NUMBER="$1" NAME="$2"
+	__debug "putting {$NUMBER -> $NAME} into phone book $PHONEBOOK"
+
+	# beware of concurrent updates
+	if lock "$PHONEBOOK"; then
+		local TMPFILE="$CALLMONITOR_TMPDIR/.callmonitor.tmp"
+		{ 
+			if [ -e "$PHONEBOOK" ]; then
+				sed -e "/^${PRE_RE}${NUMBER}${SEP_RE}/d" "$PHONEBOOK"
+			fi
+			echo "${PRE}${NUMBER}${SEP}${NAME}"
+		} > "$TMPFILE"
+		cat "$TMPFILE" > "$PHONEBOOK"
+		rm "$TMPFILE"
+		unlock "$PHONEBOOK"
+	else
+		__debug "locking $PHONEBOOK failed"
+	fi
+	if $UPDATE; then
+		callmonitor_store
+	fi
+}
+
+init() {
+	RUN="/var/run/phonebook"
+	if [ ! -d "$RUN" ]; then
+		mkdir -p "$RUN"
+	fi
+	"$CALLMONITOR_LIBDIR/sipnames" > "$RUN"/sip
+}
+
+case $1 in
+	get) __get "$2" ;;
+	exists) __get "$2" > /dev/null ;;
+	put) __put_local "$2" "$3" ;;
+	init) init ;;
+	*) __usage >&2; exit 1 ;;
+esac
+exit $?
