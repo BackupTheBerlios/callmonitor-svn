@@ -1,0 +1,6 @@
+2005-12-10
+
+	* telefon: Neues Paket zur Verwaltung von telefon abgetrennt; telfifo
+	erlaubt die Registrierung mehrerer Leser der Ausgabe von telefon
+
+	* telefon: Ungepufferte Ausgabe (Dank an Harald): "telefon 1"
