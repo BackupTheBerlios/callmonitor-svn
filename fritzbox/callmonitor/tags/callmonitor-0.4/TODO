@@ -1,0 +1,17 @@
+require umschreiben, so dass in einem Pfad gesucht wird: praktisch zum Testen
+neuer Funktionen
+
+Sobald Daniel das Framework fertig hat:
+- Schema für Listeners schreiben
+
+== Nicht so wichtig ==
+
+Informationen aus Reverse Lookup besser zerlegen: Name, Adresse, formatierte
+Telefonummer, ...
+    -> braucht ein flexibleres Telefonbuch
+
+title bei d.*popup/message (?) parametrisierbar machen
+
+ar7cfgconv-"Parser" separieren
+
+(Install-Skript und Patches für m4.* schreiben?)
