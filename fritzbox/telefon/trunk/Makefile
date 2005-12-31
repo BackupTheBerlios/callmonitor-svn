@@ -10,7 +10,8 @@ build: $(ARCHIVE)
 $(ARCHIVE): check
 	rm -rf ./$(NAME)
 	mkdir $(NAME)
-	tar c --exclude=.svn -C base . | tar x -C $(NAME)
+	mkdir $(NAME)/root
+	tar c --exclude=.svn -C base . | tar x -C $(NAME)/root
 	tar cvjf $@ --format=oldgnu --owner=root --group=root $(NAME) \
 	|| (rm $(ARCHIVE) && false)
 	rm -rf ./$(NAME)
