@@ -1,21 +1,18 @@
 #!/bin/sh
 . /usr/lib/libmodcgi.sh
 
-remote_tel_chk='' local_tel_chk=''
-case "$TELEFON_IP" in
-	"") local_tel_chk=' checked' ;;
-	"*") remote_tel_chk=' checked' ;;
-esac
+remote_tel_chk=''
+if [ "$TELEFON_IP" = "*" ]; then
+	remote_tel_chk=' checked'
+fi
 
 sec_begin 'Telefon-Daemon'
 
 cat << EOF
-<h2>Zugriff von auﬂen erlauben? (Port 1011)</h2>
 <p>
-<input type="radio" name="ip" value="*"$remote_tel_chk id="t1">
-<label for="t1">Ja</label>
-<input type="radio" name="ip" value=""$local_tel_chk id="t2">
-<label for="t2">Nein</label>
+<input type="hidden" name="ip" value="">
+<input type="checkbox" name="ip" value="*"$remote_tel_chk id="t1">
+<label for="t1">Zugriff von auﬂen erlauben (Port 1011)</label>
 </p>
 EOF
 
