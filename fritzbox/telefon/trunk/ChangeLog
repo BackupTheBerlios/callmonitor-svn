@@ -4,3 +4,9 @@
 	erlaubt die Registrierung mehrerer Leser der Ausgabe von telefon
 
 	* telefon: Ungepufferte Ausgabe (Dank an Harald): "telefon 1"
+
+2005-12-??
+
+	* Makefile: Neue Paketstruktur (für ds-0.2)
+
+	Version 0.2 veröffentlicht
