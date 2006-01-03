@@ -1,0 +1,8 @@
+CONFIG_FILE='/tmp/flash/callmonitor/listeners'
+CONFIG_SAVE='modsave flash'
+CONFIG_TYPE='text'
+
+CAPTION='Listeners (Callmonitor)'
+DESCRIPTION=\
+"Syntax: &lt;SOURCE pattern&gt; &lt;DEST pattern&gt; &lt;action&gt;<br>
+(z.B.: ^(0815|04711) ^SIP0$ dboxpopup 192.168.3.4)"

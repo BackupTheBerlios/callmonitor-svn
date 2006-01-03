@@ -1,0 +1,6 @@
+CONFIG_FILE='/tmp/flash/callmonitor/callers'
+CONFIG_SAVE='modsave flash'
+CONFIG_TYPE='text'
+
+CAPTION='Callers (Callmonitor)'
+DESCRIPTION="Syntax: &lt;number&gt; &lt;name&gt;"
