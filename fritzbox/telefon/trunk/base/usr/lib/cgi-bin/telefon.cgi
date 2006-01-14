@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /usr/bin/env ash
 . /usr/lib/libmodcgi.sh
 
 remote_tel_chk=''

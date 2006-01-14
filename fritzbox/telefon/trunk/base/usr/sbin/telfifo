@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /usr/bin/env ash
 _usage() {
 	cat << EOF
 Usage: telfifo {enable|disable} FIFO
