@@ -4,6 +4,7 @@ export PATH="$TELEFON_PATH"
 DAEMON=telefon
 
 . "$TELEFON_LIBDIR"/rc.sh
+. "$TELEFON_LIBDIR"/modreg.sh
 
 case "$TELEFON_IP" in
 	"") TELEFON_ARG="a127.0.0.1" ;;
@@ -47,20 +48,9 @@ restart() {
 	start
 }
 
-register() {
-	if type modreg > /dev/null; then
-		modreg cgi $DAEMON 'Telefon'
-	fi
-}
-unregister() {
-	if type modreg > /dev/null; then
-		modunreg cgi $DAEMON
-	fi
-}
-
 case "$1" in
 	""|load)
-		register
+		mod_register
 		if [ ! -z "$(pidof $DAEMON)" ]; then
 			echo "$DAEMON already started."
 		else
@@ -69,7 +59,7 @@ case "$1" in
 		;;
 	unload)
 		stop
-		unregister
+		mod_unregister
 		;;
 	start)
 		start

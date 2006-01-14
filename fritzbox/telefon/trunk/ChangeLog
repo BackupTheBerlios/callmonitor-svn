@@ -10,3 +10,9 @@
 	* Makefile: Neue Paketstruktur (für ds-0.2)
 
 	Version 0.2 veröffentlicht
+
+2006-01-14
+
+	Abtrennung dsmod-spezifischer Teile
+
+	* conf.reload: Konfiguration für unmodifizierte Firmwares

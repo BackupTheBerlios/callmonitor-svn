@@ -1,4 +1,5 @@
 MOD := dsmod
+MOD_LIST := $(patsubst conf.%, %, $(wildcard conf.*))
 VERSION := $(shell cat .version)
 NAME := telefon-$(VERSION)
 ARCHIVE := $(NAME)-$(MOD).tar.bz2
@@ -8,6 +9,9 @@ BUILDDIR := build.$(MOD)
 .PHONY: $(ARCHIVE) build clean check
 
 build: $(ARCHIVE)
+
+build-all:
+	for mod in $(MOD_LIST); do $(MAKE) build MOD=$$mod; done
 
 $(ARCHIVE): check
 	rm -rf $(BUILDDIR)/$(NAME)
@@ -19,6 +23,7 @@ $(ARCHIVE): check
 	|| (rm $(ARCHIVE) && false)
 
 check:
+	[ -d $(CONF) ] || (echo Configuration $(CONF) is missing; false)
 	find base conf.* -name .svn -prune \
 	-or -type f -exec busybox ash -n {} \;
 
