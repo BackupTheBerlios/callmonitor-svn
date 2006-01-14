@@ -34,7 +34,7 @@ collect: check
 	mkdir -p $(BNAME)/root
 	$(TAR) c --exclude=.svn -C base . -C ../$(CONF) . | \
 	    $(TAR) x -C $(BNAME)/root
-#	tar c --exclude=.svn docs | tar x -C $(BNAME)
+	tar c --exclude=.svn docs | tar x -C $(BNAME)
 	echo $(VERSION) > $(BNAME)/root/etc/default.telefon/.version
 	echo $(MOD) > $(BNAME)/root/etc/default.telefon/.subversion
 	cp $(EXTRAS) $(BNAME)
