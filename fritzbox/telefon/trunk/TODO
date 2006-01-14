@@ -1,4 +1,8 @@
+TELEFON_CFG-Bootstrapping lösen
+
 Mod-Abhängigkeiten separieren
 
 -> Standalone-Paket (funktioniert ohne Mod) für Zusammenarbeit mit
 TelefonSparbuch
+
+Original-Firmware installieren und testen
