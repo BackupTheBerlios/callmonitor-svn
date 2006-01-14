@@ -4,28 +4,45 @@ VERSION := $(shell cat .version)
 NAME := telefon-$(VERSION)
 ARCHIVE := $(NAME)-$(MOD).tar.bz2
 CONF := conf.$(MOD)
-BUILDDIR := build.$(MOD)
+BUILD := build.$(MOD)
+BNAME := $(BUILD)/$(NAME)
+EXTRAS := README COPYING ChangeLog
 
-.PHONY: $(ARCHIVE) build clean check
+TAR := tar
+TAR_OWNER := --owner=root --group=root
+
+.PHONY: $(ARCHIVE) build clean check collect
 
 build: $(ARCHIVE)
 
 build-all:
 	for mod in $(MOD_LIST); do $(MAKE) build MOD=$$mod; done
 
-$(ARCHIVE): check
-	rm -rf $(BUILDDIR)/$(NAME)
-	mkdir -p $(BUILDDIR)/$(NAME)/root
-	tar c --exclude=.svn -C base . -C ../$(CONF) . | \
-	    tar x -C $(BUILDDIR)/$(NAME)/root
-#	tar c --exclude=.svn docs | tar x -C $(BUILDDIR)/$(NAME)
-	tar cvjf $@ --owner=root --group=root -C $(BUILDDIR) $(NAME) \
-	|| (rm $(ARCHIVE) && false)
+$(NAME)-dsmod.tar.bz2: collect
+	$(TAR) cvjf $@ $(TAR_OWNER) -C $(BUILD) $(NAME) \
+	    || (rm $@ && false)
+
+$(NAME)-reload.tar.bz2: collect
+	$(TAR) cvf $(BNAME)/$(NAME)-root.tar --format=oldgnu \
+	    $(TAR_OWNER) -C $(BNAME)/root .
+	rm -rf $(BNAME)/root
+	$(TAR) cvjf $@ $(TAR_OWNER) -C $(BUILD) $(NAME) \
+	    || (rm $@ && false)
+
+collect: check
+	rm -rf $(BNAME)
+	mkdir -p $(BNAME)/root
+	$(TAR) c --exclude=.svn -C base . -C ../$(CONF) . | \
+	    $(TAR) x -C $(BNAME)/root
+#	tar c --exclude=.svn docs | tar x -C $(BNAME)
+	echo $(VERSION) > $(BNAME)/root/etc/default.telefon/.version
+	echo $(MOD) > $(BNAME)/root/etc/default.telefon/.subversion
+	cp $(EXTRAS) $(BNAME)
 
 check:
-	[ -d $(CONF) ] || (echo Configuration $(CONF) is missing; false)
+	@[ -d $(CONF) ] || (echo Configuration $(CONF) is missing; false)
 	find base conf.* -name .svn -prune \
-	-or -type f -exec busybox ash -n {} \;
+	    -or -type f -exec busybox ash -n {} \;
 
 clean:
 	-rm telefon*.tar.bz2
