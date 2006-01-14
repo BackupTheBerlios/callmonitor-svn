@@ -1,5 +1,8 @@
 #! /usr/bin/env ash
-. "${TELEFON_CFG:="/mod/etc/default.telefon/system.cfg"}"
+SELFAUTODIR="${0%/*}"
+case $SELFAUTODIR in [^/]*) SELFAUTODIR="$PWD/$SELFAUTODIR";; esac
+
+. "${TELEFON_CFG:="$SELFAUTODIR/../default.telefon/system.cfg"}"
 export PATH="$TELEFON_PATH"
 DAEMON=telefon
 

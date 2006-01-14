@@ -5,8 +5,10 @@ Usage: telfifo {enable|disable} FIFO
        telfifo list
 EOF
 }
+SELFAUTODIR="${0%/*}"
+case $SELFAUTODIR in [^/]*) SELFAUTODIR="$PWD/$SELFAUTODIR";; esac
 
-. "${TELEFON_CFG:=/mod/etc/default.telefon/system.cfg}"
+. "${TELEFON_CFG:=$SELFAUTODIR/../../etc/default.telefon/system.cfg}"
 
 if [ ! -d "$TELEFON_FIFODIR" ]; then
 	mkdir -p "$TELEFON_FIFODIR"
