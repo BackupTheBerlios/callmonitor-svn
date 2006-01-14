@@ -7,6 +7,9 @@ CONF := conf.$(MOD)
 BUILD := build.$(MOD)
 BNAME := $(BUILD)/$(NAME)
 EXTRAS := README COPYING ChangeLog
+ifneq (,$(wildcard install.$(MOD)))
+EXTRAS += install.$(MOD)
+endif
 
 TAR := tar
 TAR_OWNER := --owner=root --group=root
@@ -41,7 +44,7 @@ collect: check
 
 check:
 	@[ -d $(CONF) ] || (echo Configuration $(CONF) is missing; false)
-	find base conf.* -name .svn -prune \
+	find base conf.* install.* -name .svn -prune \
 	    -or -type f -exec busybox ash -n {} \;
 
 clean:

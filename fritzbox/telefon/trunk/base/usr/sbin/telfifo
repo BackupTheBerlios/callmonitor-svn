@@ -9,6 +9,7 @@ SELFAUTODIR="${0%/*}"
 case $SELFAUTODIR in [^/]*) SELFAUTODIR="$PWD/$SELFAUTODIR";; esac
 
 . "${TELEFON_CFG:=$SELFAUTODIR/../../etc/default.telefon/system.cfg}"
+export PATH="$TELEFON_PATH"
 
 if [ ! -d "$TELEFON_FIFODIR" ]; then
 	mkdir -p "$TELEFON_FIFODIR"
