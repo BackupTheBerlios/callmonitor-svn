@@ -45,5 +45,5 @@ check:
 	    -or -type f -exec busybox ash -n {} \;
 
 clean:
-	-rm telefon*.tar.bz2
-	-rm -r build.*
+	-rm -f telefon*.tar.bz2
+	-rm -rf build.*

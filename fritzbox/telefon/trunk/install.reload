@@ -1,0 +1,12 @@
+#! /bin/sh
+ARCHIVE="$1"
+if [ -z "$ARCHIVE" ]; then
+	echo "Usage: $0 telefon-*-root.tar" >&2
+	exit 1
+fi
+MOD_ROOT='/var/mod'
+if [ ! -d "$MOD_ROOT" ]; then
+	mkdir -p "$MOD_ROOT"
+fi
+tar xf "$ARCHIVE" -C "$MOD_ROOT"
+"$MOD_ROOT/etc/init.d/rc.telefon" load

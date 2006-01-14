@@ -24,18 +24,22 @@ _enable() {
 		echo "$FIFO is not writable" >&2
 		exit 1
 	fi
-	let id="$(ls -r "$TELEFON_FIFODIR" | head -1) + 1"
+	# 'sed -e q' instead of inavailable 'head -1'
+	let id="$(ls -r "$TELEFON_FIFODIR" | sed -e q) + 1"
 	ln -s "$FIFO" "$TELEFON_FIFODIR/$id"
 }
 _disable() {
 	local FIFO="$1"
-	real_fifo="$(realpath "$FIFO")"
 	for fifo in "$TELEFON_FIFODIR"/*; do
 		[ -e "$fifo" ] || continue
-		if [ "$real_fifo" = "$(realpath "$fifo")" ]; then
+		if [ "$FIFO" = "$(_readlink "$fifo")" ]; then
 			rm "$fifo"
 		fi
 	done
+}
+_readlink() {
+	local path="$(ls -l "$1")"
+	echo "${path#*-> }"
 }
 
 case "$1" in

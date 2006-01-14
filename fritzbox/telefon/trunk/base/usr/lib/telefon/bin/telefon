@@ -1,0 +1,7 @@
+#! /usr/bin/env ash
+SELFAUTODIR="${0%/*}"
+case $SELFAUTODIR in [^/]*) SELFAUTODIR="$PWD/$SELFAUTODIR";; esac
+
+. "${TELEFON_CFG:=$SELFAUTODIR/../../../../etc/default.telefon/system.cfg}"
+
+"$TELEFON_RC" start
