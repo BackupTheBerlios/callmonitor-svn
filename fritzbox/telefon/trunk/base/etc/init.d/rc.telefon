@@ -41,9 +41,22 @@ start() {
 	check_status
 }
 stop() {
+	local try=0 terminated=false
 	echo -n "Stopping telefon..."
 	killall -q -TERM telefon
-	check_status
+	for try in 1 2 3; do
+	    if killall -q -0 telefon; then
+		echo -n "."
+		sleep 1
+	    else
+		terminated=true
+		break
+	    fi
+	done
+	if ! $terminated; then
+	    killall -q -KILL telefon
+	fi
+	check_status 0
 }
 
 restart() {
