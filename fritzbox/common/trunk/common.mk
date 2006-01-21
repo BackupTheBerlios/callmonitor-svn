@@ -66,6 +66,9 @@ collect: check
 	echo $(MOD) > $(BNAME)/root/etc/default.$(PKG)/.subversion
 	cp $(EXTRAS) $(BNAME)
 	find $(BNAME)/root -type f -print0 | xargs -0 common/tools/shstrip
+	if [ -e $(BNAME)/install ]; \
+	    then common/tools/shstrip $(BNAME)/install; \
+	fi
 
 check:
 	@[ -d $(CONF) ] || (echo Configuration $(CONF) is missing; false)
