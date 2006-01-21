@@ -17,4 +17,7 @@
 
 	* telfifo: Symlinks werden nicht mehr aufgelöst: Dateinamen bei enable
 	und disable müssen identisch sein.
+
 	* conf.reload: Konfiguration für unmodifizierte Firmwares
+
+	* rc.telefon: 'stop' gegebenenfalls gewaltsam
