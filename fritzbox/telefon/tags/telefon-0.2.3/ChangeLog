@@ -1,0 +1,23 @@
+2005-12-10
+
+	* telefon: Neues Paket zur Verwaltung von telefon abgetrennt; telfifo
+	erlaubt die Registrierung mehrerer Leser der Ausgabe von telefon
+
+	* telefon: Ungepufferte Ausgabe (Dank an Harald): "telefon 1"
+
+2005-12-??
+
+	* Makefile: Neue Paketstruktur (für ds-0.2)
+
+	Version 0.2 veröffentlicht
+
+2006-01-14
+
+	Abtrennung dsmod-spezifischer Teile
+
+	* telfifo: Symlinks werden nicht mehr aufgelöst: Dateinamen bei enable
+	und disable müssen identisch sein.
+
+	* conf.reload: Konfiguration für unmodifizierte Firmwares
+
+	* rc.telefon: 'stop' gegebenenfalls gewaltsam
