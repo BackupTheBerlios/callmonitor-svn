@@ -9,8 +9,8 @@ CONF := mod/$(MOD)/root
 BUILD := build/$(MOD)
 BNAME := $(BUILD)/$(NAME)
 EXTRAS := README COPYING ChangeLog
-ifneq (,$(wildcard mod/$(MOD)/install))
-EXTRAS += mod/$(MOD)/install
+ifneq (,$(wildcard common/mod/$(MOD)/install))
+EXTRAS += common/mod/$(MOD)/install
 endif
 
 TAR := tar
