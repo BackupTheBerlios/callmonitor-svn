@@ -18,6 +18,12 @@
 	* telfifo: Symlinks werden nicht mehr aufgelöst: Dateinamen bei enable
 	und disable müssen identisch sein.
 
+2006-01-1?
+	
 	* conf.reload: Konfiguration für unmodifizierte Firmwares
 
 	* rc.telefon: 'stop' gegebenenfalls gewaltsam
+
+2006-01-22
+
+	Version 0.3 veröffentlicht

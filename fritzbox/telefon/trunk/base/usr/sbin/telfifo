@@ -21,10 +21,12 @@
 ## http://developer.berlios.de/projects/callmonitor/
 ##
 _usage() {
+#<
 	cat << EOF
 Usage: telfifo {enable|disable} FIFO
        telfifo list
 EOF
+#>
 }
 SELFAUTODIR="${0%/*}"
 case $SELFAUTODIR in [^/]*) SELFAUTODIR="$PWD/$SELFAUTODIR";; esac
