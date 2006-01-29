@@ -50,7 +50,7 @@ start() {
 	done
 	if [ $# -eq 0 ]; then
 	    telefon ${TELEFON_ARG+"$TELEFON_ARG"} > /dev/null 2>&1 &
-	elsif [ $# -eq 1 ]; then
+	elif [ $# -eq 1 ]; then
 	    telefon 1 ${TELEFON_ARG+"$TELEFON_ARG"} > "$1" 2> /dev/null &
 	else
 	    out="$1"
