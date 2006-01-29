@@ -20,8 +20,8 @@
 ## http://developer.berlios.de/projects/callmonitor/
 ##
 mod_register() {
-	: nothing
+    : nothing
 }
 mod_unregister() {
-	: nothing
+    : nothing
 }
