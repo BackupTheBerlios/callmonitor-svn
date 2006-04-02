@@ -1,0 +1,42 @@
+----------------------------------------------------------------------
+Testen
+----------------------------------------------------------------------
+
+testcall
+
+----------------------------------------------------------------------
+Demnächst anschauen
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Nicht so wichtig
+----------------------------------------------------------------------
+
+Betrieb ohne Mod vorbereiten (zum Nachladen auf unveränderte Firmware)
+    Mod-Busybox nachladen
+    Weitere "Binary"-Abhängigkeiten?
+    Systemabhängigkeiten wieder strenger separieren
+
+    reload: modreg.sh
+
+Die (SOURCE, DEST)-Paare der letzten k Anrufe aufzeichnen und als Vorgabe bei
+Testanrufen verwenden.
+
+System zur Ersetzung von Konfigurationsstrings in Dateien
+    CALLMONITOR_CFG in controller
+
+require umschreiben, so dass in einem Pfad gesucht wird: praktisch zum Testen
+neuer Funktionen
+
+Defaults/Interfaces in base-Zweig, überschreiben in conf.*
+
+Sobald Daniel das Framework fertig hat:
+- Schema für Listeners schreiben
+
+Informationen aus Reverse Lookup besser zerlegen: Name, Adresse, formatierte
+Telefonummer, ...
+    -> braucht ein flexibleres Telefonbuch
+
+title bei d.*popup/message (?) parametrisierbar machen
+
+ar7cfgconv-"Parser" separieren
