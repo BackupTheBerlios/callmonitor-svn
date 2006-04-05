@@ -73,7 +73,7 @@ collect: check
 check:
 	@[ -d $(CONF) ] || (echo Configuration $(CONF) is missing; false)
 	find base mod/*/root $(wildcard mod/*/install) -name .svn -prune \
-	    -or -type f -exec busybox ash -n {} \;
+	    -or -type f -not -name "*.sed" -exec busybox ash -n {} \;
 
 clean:
 	-rm -f $(PKG)*.tar.bz2
