@@ -27,7 +27,7 @@ MOD_LIST := $(notdir $(wildcard mod/*))
 VERSION := $(shell cat .version)
 NAME := $(PKG)-$(VERSION)
 ARCHIVE := $(NAME)-$(MOD).tar.bz2
-CONF := mod/$(MOD)/root
+CONF := mod/$(MOD)
 BUILD := build/$(MOD)
 BNAME := $(BUILD)/$(NAME)
 EXTRAS := README COPYING ChangeLog
@@ -59,8 +59,8 @@ $(NAME)-reload.tar.bz2: collect
 collect: check
 	rm -rf $(BNAME)
 	mkdir -p $(BNAME)/root
-	$(TAR) c --exclude=.svn -C base . -C ../$(CONF) . | \
-	    $(TAR) x -C $(BNAME)/root
+	$(TAR) c --exclude=.svn -C base . | $(TAR) x -C $(BNAME)/root
+	$(TAR) c --exclude=.svn -C $(CONF) . |  $(TAR) x -C $(BNAME)
 	$(TAR) c --exclude=.svn docs | $(TAR) x -C $(BNAME)
 	echo $(VERSION) > $(BNAME)/root/etc/default.$(PKG)/.version
 	echo $(MOD) > $(BNAME)/root/etc/default.$(PKG)/.subversion
