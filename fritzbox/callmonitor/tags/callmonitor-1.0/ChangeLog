@@ -1,0 +1,170 @@
+0.2
+	* phonebook: 49er-Rufnummern (ohne 00, länger als 10 Zeichen) erkennen
+
+	* mail_missed_call: Bei verpassten Anrufen eine Mail schicken
+
+	* mail: Skript, um Mails bei Mailserverfehlern zwischenzuspeichern und
+	erneut zu schicken
+
+	* actions.local.d: Symlink war falsch
+
+	* callmonitor: MSISDN und CALLER sind ab sofort leer, wenn keine
+	Information übertragen/gefunden wurde. Für alternative Texte in den
+	Benachrichtigungen können die Listener sorgen
+
+	* callmonitor: Logging ins Syslog (hauptsächlich im Debug-Modus; aber
+	auch Infos über erkannte Anrufe)
+
+0.2.1
+	* phonebook: Ortsvorwahl erst hinzufügen, wenn Nummer im lokalen
+	Adressbuch nicht gefunden wurde; dann nochmal lokal, dann erst bei
+	dasoertliche probieren.
+	
+	* Regexps überarbeitet: [:alnum:], [:digit:], [:space:] etc., \?, \+
+	gehen doch!
+
+	* callmonitor: Umbenennen der Variablen MSISDN, CALLER, CALLED
+	    MSISDN -> SOURCE
+	    CALLER -> SOURCE_NAME
+	    CALLED -> DEST
+	    (neu)  -> DEST_NAME
+
+	* phonebook: Namen für Angerufenen/Namen für SIP? -> Testen (Idee von
+	dsl123)
+
+	Bessere Vorgaben für SIP-Namen aus voip.cfg ableiten (Registrar, evtl.
+	gekürzt %.?? #sip.)
+
+	Auflösung SIP? zu username@registrar im Telefonbuch, analog zu Vorwahl
+	bei normalen Nummmern: Erst "unbehandelte" Nummer nachschlagen, dann
+	transformierte 
+	Vorteil: Unabhängigkeit von Verschiebungen
+	    Analyse von voip.cfg beim Start; Zuordnung SIPx ->
+	    "SIP-Adresse" in Variablen, berechnete Namen in Telefonbuch
+
+0.2.3
+	* telefon: Wenn telefon nicht (auch) auf localhost lauscht, kann er
+	von der Box selbst nicht erreicht werden!! (z.B. vom Webinterface
+	(ISDN-Endgeräte)); Dank an carlo65
+
+	* init.d: telefon wird bei 'rc.callmonitor stop' gestartet, auch wenn
+	es vorher gar nicht lief
+
+	* init.d: callmonitor wird durch .../bin/telefon gestartet, auch wenn
+	vorher nicht lief und ENABLED=no -> try-start oder ähnlich einbauen
+
+	* callmonitor: Standard-Message umbauen (DEST_NAME)
+
+0.2.4
+	* phonebook: Bei mehreren parallelen Schreibern sollte nur der letzte
+	'modsave flash' aufrufen.
+
+	* phonebook: bei ausgehenden Anrufen (von NT) die angerufene Nummer
+	nachschlagen und nicht die eigene (Dank an tzhs)
+
+	* callmonitor: Auch die Variable NT ist nun für die Listener
+	verfügbar.
+
+2005-12-10
+
+	* telefon: Neues Paket zur Verwaltung von telefon abgetrennt; telfifo
+	erlaubt die Registrierung mehrerer Leser der Ausgabe von telefon
+
+	* telefon: Ungepufferte Ausgabe (Dank an Harald): "telefon 1"
+
+2005-12-17
+
+	* rc.callmonitor: Vorhandensein des telefon-Pakets überprüfen
+	* callmonitor.cgi: Debug-Modus über Web-Oberfläche einstellbar
+
+2006-01-01
+
+	* Makefile: Neue Paket-Konvention für ds-0.2 (./root, ./docs)
+	* dboxpopup, dboxmessage: Standardnachricht in UTF-8 mit
+	Zeilenwechseln statt Kommas (Dank an IngoB)
+	* phonebook: Rückwärtssuche ohne Caching möglich (Dank an mode)
+	* maint.cgi: Wartungsseite zum Aufräumen des Telefonbuchs
+	* phonebook: Löschen von Einträgen (phonebook remove <id>)
+
+	callmonitor-0.5 veröffentlicht
+
+	* controller: Controller mit den gemeinsamen Initialisierungen
+	(system.cfg, ...), der dann Applets aufruft
+
+	* phonebook: Argumente prüfen: "phonebook get" hinterließ einen leeren
+	Eintrag im Telefonbuch.
+
+	* shstrip: Kommentare beim Zusammenpacken für die Box entfernen
+
+	* callmonitor: Auch IncomingCall-Zeilen mit Präfix erkennen; z.B. bei
+	Fritz!Box 7170 (Dank an SatBandit)
+
+2006-01-21
+
+	* messages.sh: dreammessage ist über die Umgebungsvariablen
+	DREAM_TIMEOUT, DREAM_CAPTION und DREAM_ICON weiter parametrisierbar
+
+	* callmonitor: "E:" als Präfix beim Quellmuster passt nur beim Ende
+	eines Anrufs; das ist nützlich für das Ausführen von Aktionen per
+	Telefoncode (auch wenn inkrementell gewählt!). Achtung: Keine Nummern
+	mit unerwünschten Nebenwirkungen verwenden. (Unterscheidung NT/nicht
+	NT ist nicht möglich.)
+
+2006-01-22
+	
+	callmonitor-0.6 veröffentlicht
+
+2006-03-18
+
+	* phonebook: Einträge im Telefonbuch endeten fälschlicherweise immer
+	mit einem Semikolon; die Rückwärtssuche ist an die Änderungen bei
+	dasoertliche.de angepasst (Dank an meimi039); die Adresse bei der
+	Rückwärtssuche steht jetzt in Klammern
+
+	Performance-Optimierungen (leider zu Lasten der Lesbarkeit des Codes):
+	vom erkanntem Anruf bis zur Regelausführung (getestet bei einer
+	einfachen Regel und ohne Rückwärtssuche) nun in ca. einer statt vorher
+	in 5 Sekunden (Dank fürs Drängeln an xenon80 :-))
+
+	callmonitor-0.7 veröffentlicht
+
+2006-03-25
+
+	* callmonitor: Effizienteres Logging
+
+	* telefon: Alten Kompatibilitätslink /usr/lib/callmonitor/bin/telefon
+	entfernt.
+
+2006-03-29
+
+	* dboxlcd.sh: dboxlcd(): Meldungen auf dem LCD der Dbox anzeigen;
+	DBOX_TIMEOUT standardmäßig 10 Sekunden
+
+2006-03-31
+
+	* messages.sh: xboxmessage(): Zweizeilige Meldung (+ Titel) auf der
+	X-Box; Titel anpassbar durch XBOX_CAPTION
+	
+	* phonebook: als Bibliothek in den Callmonitor laden
+
+2006-04-02
+
+	callmonitor-0.8 veröffentlicht
+
+	Vorbereitungen für die Umstellung auf das JFritz-Interface
+
+2006-04-05
+
+	* callmonitor: Veraltetes Action-Interface entfernt: MSISDN, CALLER, CALLED
+
+2006-04-07
+
+	Umstellung auf das JFritz-Interface: Das telefon-Paket wird nicht mehr
+	benötigt; das Format der "Listeners" hat sich geändert.
+
+	* mail.sh: mail_missed_call existiert nicht mehr; durch "in:cancel ...
+	mailmessage ..." ersetzt.
+
+	English translation (Web interface and messages)
+
+	callmonitor-1.0 veröffentlicht
