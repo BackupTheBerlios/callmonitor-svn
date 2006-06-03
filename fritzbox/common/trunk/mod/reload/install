@@ -36,6 +36,8 @@ if [ ! -d "$MOD_ROOT" ]; then
     mkdir -p "$MOD_ROOT"
 fi
 tar xf "$ARCHIVE" -C "$MOD_ROOT"
-"$MOD_ROOT/etc/init.d/rc.$PKG" load
+if [ -x "$MOD_ROOT/etc/init.d/rc.$PKG" ]; then
+    "$MOD_ROOT/etc/init.d/rc.$PKG" load
+fi
 mkdir -p "$MOD_ROOT/pkg"
 ln -s .. "$MOD_ROOT/pkg/$PKG"
