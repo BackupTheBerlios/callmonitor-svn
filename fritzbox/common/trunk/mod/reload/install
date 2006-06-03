@@ -36,6 +36,11 @@ if [ ! -d "$MOD_ROOT" ]; then
     mkdir -p "$MOD_ROOT"
 fi
 tar xf "$ARCHIVE" -C "$MOD_ROOT"
+if [ ! -e "$MOD_ROOT/etc/conf/$PKG.cfg" \
+    -a -e "$MOD_ROOT/etc/default.$PKG/$PKG.cfg" ]; then
+    mkdir -p "$MOD_ROOT/etc/conf"
+    cp "$MOD_ROOT/etc/default.$PKG/$PKG.cfg" "$MOD_ROOT/etc/conf/$PKG.cfg"
+fi
 if [ -x "$MOD_ROOT/etc/init.d/rc.$PKG" ]; then
     "$MOD_ROOT/etc/init.d/rc.$PKG" load
 fi
