@@ -1,0 +1,31 @@
+----------------------------------------------------------------------
+Testen
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Wichtig
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Demnächst anschauen
+----------------------------------------------------------------------
+
+Wizard/Oberfläche zur Erstellung einfacher Regeln (für Einsteiger)
+
+----------------------------------------------------------------------
+Nicht so wichtig
+----------------------------------------------------------------------
+
+Seltsame Aufhänger von callaction beheben (Ininterruptible sleep!)
+
+Die (SOURCE, DEST)-Paare der letzten k Anrufe aufzeichnen und als Vorgabe bei
+Testanrufen verwenden.
+
+System zur Ersetzung von Konfigurationsstrings in Dateien
+    CALLMONITOR_CFG in controller
+
+Defaults/Interfaces in base-Zweig, überschreiben in conf.*
+
+ar7cfgconv-"Parser" separieren
+
+Betrieb ohne Mod vorbereiten (zum Nachladen auf unveränderte Firmware)
