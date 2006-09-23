@@ -1,0 +1,35 @@
+----------------------------------------------------------------------
+Testen
+----------------------------------------------------------------------
+
+Callers und Listeners bei Initialisierung anlegen, falls nicht
+vorhanden
+
+----------------------------------------------------------------------
+Wichtig
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Demnächst anschauen
+----------------------------------------------------------------------
+
+Ergebnis der Rückwärtssuche im Fritzbox-Telefonbuch ablegen.
+    (zu langsam!!)
+
+Die (SOURCE, DEST)-Paare der letzten k Anrufe aufzeichnen und als Vorgabe bei
+Testanrufen verwenden.
+
+----------------------------------------------------------------------
+Nicht so wichtig
+----------------------------------------------------------------------
+
+Wizard/Oberfläche zur Erstellung einfacher Regeln (für Einsteiger)
+
+Seltsame Aufhänger von callaction beheben (Ininterruptible sleep!)
+
+System zur Ersetzung von Konfigurationsstrings in Dateien
+    CALLMONITOR_CFG in controller
+
+ar7cfgconv-"Parser" separieren
+
+Betrieb ohne Mod vorbereiten (zum Nachladen auf unveränderte Firmware)
