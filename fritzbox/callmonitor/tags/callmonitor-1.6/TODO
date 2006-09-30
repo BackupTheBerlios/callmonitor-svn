@@ -1,0 +1,34 @@
+----------------------------------------------------------------------
+Testen
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Wichtig
+----------------------------------------------------------------------
+
+getmsg funktioniert mit einigen Webservern nicht zuverlässig (dasoertliche, goyellow)
+
+----------------------------------------------------------------------
+Demnächst anschauen
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Nicht so wichtig
+----------------------------------------------------------------------
+
+Ergebnis der Rückwärtssuche im Fritzbox-Telefonbuch ablegen.
+    (zu langsam!!)
+
+Die (SOURCE, DEST)-Paare der letzten k Anrufe aufzeichnen und als Vorgabe bei
+Testanrufen verwenden.
+
+Wizard/Oberfläche zur Erstellung einfacher Regeln (für Einsteiger)
+
+Seltsame Aufhänger von callaction beheben (Ininterruptible sleep!)
+
+System zur Ersetzung von Konfigurationsstrings in Dateien
+    CALLMONITOR_CFG in controller
+
+ar7cfgconv-"Parser" separieren
+
+Betrieb ohne Mod vorbereiten (zum Nachladen auf unveränderte Firmware)
