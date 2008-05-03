@@ -1,7 +1,7 @@
 ##
 ## Callmonitor for Fritz!Box (common)
 ## 
-## Copyright (C) 2005--2006  Andreas Bühmann <buehmann@users.berlios.de>
+## Copyright (C) 2005--2008  Andreas Bühmann <buehmann@users.berlios.de>
 ## 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ collect: check
 check:
 	@[ -d $(CONF) ] || (echo Configuration $(CONF) is missing; false)
 	find base mod/*/root $(wildcard mod/*/install) -name .svn -prune \
-	    -or -type f -not -name "*.sed" -exec busybox ash -n {} \;
+	    -or -type f -not \( -name "*.sed" -or -name "*.txt" -or -name "*.cfg" \) -exec busybox ash -n {} \;
 
 clean:
 	-rm -f $(PKG)*.tar.bz2
