@@ -45,7 +45,7 @@ build: $(ARCHIVE)
 build-all:
 	for mod in $(MOD_LIST); do $(MAKE) build MOD=$$mod; done
 
-$(NAME)-dsmod.tar.bz2: collect
+$(NAME)-$(MOD).tar.bz2: collect
 	$(TAR) cvjf $@ $(TAR_OWNER) -C $(BUILD) $(NAME) \
 	    || (rm $@ && false)
 
