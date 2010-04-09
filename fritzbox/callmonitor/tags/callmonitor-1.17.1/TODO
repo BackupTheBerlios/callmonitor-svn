@@ -1,0 +1,37 @@
+----------------------------------------------------------------------
+Testen
+----------------------------------------------------------------------
+
+$LF, $CR
+
+webui-Zugriff ohne Passwort testen
+Aktivierung des Callmonitor-Interfaces
+
+----------------------------------------------------------------------
+Wichtig
+----------------------------------------------------------------------
+
+Suchreihenfolge der Telefonfonbücher: Warum Cache nicht immer als letztes?
+
+----------------------------------------------------------------------
+Demnächst anschauen
+----------------------------------------------------------------------
+
+Expertenansicht per Javascript dynamisch aktivieren (ohne Submission)
+
+Evtl. webui_logout einfügen
+
+----------------------------------------------------------------------
+Nicht so wichtig, Ideen
+----------------------------------------------------------------------
+
+Die Details der letzten k Anrufe aufzeichnen und verwenden
+* als Vorgabe bei Testanrufen
+* zum Erstellen von einfachen Regeln
+
+default_message aufwerten (auf *:cancel, *:connect und *:disconnect eingehen)
+
+Längenbeschränkung in default_message rechnet nicht richtig
+
+Ergebnis der Rückwärtssuche im Fritzbox-Telefonbuch ablegen.
+    (zu langsam!!)
