@@ -1,3 +1,0 @@
-## requires /usr/lib/callmonitor/actions.d/*.sh
-## requires /usr/bin/callaction
-## requires /usr/bin/mail

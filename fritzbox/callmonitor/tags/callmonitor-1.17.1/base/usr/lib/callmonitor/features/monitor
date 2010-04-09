@@ -1,3 +1,0 @@
-## requires /usr/sbin/callmonitor
-## requires /usr/sbin/callmonitor-test
-## requires /etc/init.d/rc.callmonitor
