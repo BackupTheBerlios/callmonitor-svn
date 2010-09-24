@@ -1,0 +1,821 @@
+0.2
+	* phonebook: 49er-Rufnummern (ohne 00, länger als 10 Zeichen) erkennen
+
+	* mail_missed_call: Bei verpassten Anrufen eine Mail schicken
+
+	* mail: Skript, um Mails bei Mailserverfehlern zwischenzuspeichern und
+	erneut zu schicken
+
+	* actions.local.d: Symlink war falsch
+
+	* callmonitor: MSISDN und CALLER sind ab sofort leer, wenn keine
+	Information übertragen/gefunden wurde. Für alternative Texte in den
+	Benachrichtigungen können die Listener sorgen
+
+	* callmonitor: Logging ins Syslog (hauptsächlich im Debug-Modus; aber
+	auch Infos über erkannte Anrufe)
+
+0.2.1
+	* phonebook: Ortsvorwahl erst hinzufügen, wenn Nummer im lokalen
+	Adressbuch nicht gefunden wurde; dann nochmal lokal, dann erst bei
+	dasoertliche probieren.
+	
+	* Regexps überarbeitet: [:alnum:], [:digit:], [:space:] etc., \?, \+
+	gehen doch!
+
+	* callmonitor: Umbenennen der Variablen MSISDN, CALLER, CALLED
+	    MSISDN -> SOURCE
+	    CALLER -> SOURCE_NAME
+	    CALLED -> DEST
+	    (neu)  -> DEST_NAME
+
+	* phonebook: Namen für Angerufenen/Namen für SIP? -> Testen (Idee von
+	dsl123)
+
+	Bessere Vorgaben für SIP-Namen aus voip.cfg ableiten (Registrar, evtl.
+	gekürzt %.?? #sip.)
+
+	Auflösung SIP? zu username@registrar im Telefonbuch, analog zu Vorwahl
+	bei normalen Nummmern: Erst "unbehandelte" Nummer nachschlagen, dann
+	transformierte 
+	Vorteil: Unabhängigkeit von Verschiebungen
+	    Analyse von voip.cfg beim Start; Zuordnung SIPx ->
+	    "SIP-Adresse" in Variablen, berechnete Namen in Telefonbuch
+
+0.2.3
+	* telefon: Wenn telefon nicht (auch) auf localhost lauscht, kann er
+	von der Box selbst nicht erreicht werden!! (z.B. vom Webinterface
+	(ISDN-Endgeräte)); Dank an carlo65
+
+	* init.d: telefon wird bei 'rc.callmonitor stop' gestartet, auch wenn
+	es vorher gar nicht lief
+
+	* init.d: callmonitor wird durch .../bin/telefon gestartet, auch wenn
+	vorher nicht lief und ENABLED=no -> try-start oder ähnlich einbauen
+
+	* callmonitor: Standard-Message umbauen (DEST_NAME)
+
+0.2.4
+	* phonebook: Bei mehreren parallelen Schreibern sollte nur der letzte
+	'modsave flash' aufrufen.
+
+	* phonebook: bei ausgehenden Anrufen (von NT) die angerufene Nummer
+	nachschlagen und nicht die eigene (Dank an tzhs)
+
+	* callmonitor: Auch die Variable NT ist nun für die Listener
+	verfügbar.
+
+2005-12-10
+
+	* telefon: Neues Paket zur Verwaltung von telefon abgetrennt; telfifo
+	erlaubt die Registrierung mehrerer Leser der Ausgabe von telefon
+
+	* telefon: Ungepufferte Ausgabe (Dank an Harald): "telefon 1"
+
+2005-12-17
+
+	* rc.callmonitor: Vorhandensein des telefon-Pakets überprüfen
+	* callmonitor.cgi: Debug-Modus über Web-Oberfläche einstellbar
+
+2006-01-01
+
+	* Makefile: Neue Paket-Konvention für ds-0.2 (./root, ./docs)
+	* dboxpopup, dboxmessage: Standardnachricht in UTF-8 mit
+	Zeilenwechseln statt Kommas (Dank an IngoB)
+	* phonebook: Rückwärtssuche ohne Caching möglich (Dank an mode)
+	* maint.cgi: Wartungsseite zum Aufräumen des Telefonbuchs
+	* phonebook: Löschen von Einträgen (phonebook remove <id>)
+
+	callmonitor-0.5 veröffentlicht
+
+	* controller: Controller mit den gemeinsamen Initialisierungen
+	(system.cfg, ...), der dann Applets aufruft
+
+	* phonebook: Argumente prüfen: "phonebook get" hinterließ einen leeren
+	Eintrag im Telefonbuch.
+
+	* shstrip: Kommentare beim Zusammenpacken für die Box entfernen
+
+	* callmonitor: Auch IncomingCall-Zeilen mit Präfix erkennen; z.B. bei
+	Fritz!Box 7170 (Dank an SatBandit)
+
+2006-01-21
+
+	* messages.sh: dreammessage ist über die Umgebungsvariablen
+	DREAM_TIMEOUT, DREAM_CAPTION und DREAM_ICON weiter parametrisierbar
+
+	* callmonitor: "E:" als Präfix beim Quellmuster passt nur beim Ende
+	eines Anrufs; das ist nützlich für das Ausführen von Aktionen per
+	Telefoncode (auch wenn inkrementell gewählt!). Achtung: Keine Nummern
+	mit unerwünschten Nebenwirkungen verwenden. (Unterscheidung NT/nicht
+	NT ist nicht möglich.)
+
+2006-01-22
+	
+	callmonitor-0.6 veröffentlicht
+
+2006-03-18
+
+	* phonebook: Einträge im Telefonbuch endeten fälschlicherweise immer
+	mit einem Semikolon; die Rückwärtssuche ist an die Änderungen bei
+	dasoertliche.de angepasst (Dank an meimi039); die Adresse bei der
+	Rückwärtssuche steht jetzt in Klammern
+
+	Performance-Optimierungen (leider zu Lasten der Lesbarkeit des Codes):
+	vom erkanntem Anruf bis zur Regelausführung (getestet bei einer
+	einfachen Regel und ohne Rückwärtssuche) nun in ca. einer statt vorher
+	in 5 Sekunden (Dank fürs Drängeln an xenon80 :-))
+
+	callmonitor-0.7 veröffentlicht
+
+2006-03-25
+
+	* callmonitor: Effizienteres Logging
+
+	* telefon: Alten Kompatibilitätslink /usr/lib/callmonitor/bin/telefon
+	entfernt.
+
+2006-03-29
+
+	* dboxlcd.sh: dboxlcd(): Meldungen auf dem LCD der Dbox anzeigen;
+	DBOX_TIMEOUT standardmäßig 10 Sekunden
+
+2006-03-31
+
+	* messages.sh: xboxmessage(): Zweizeilige Meldung (+ Titel) auf der
+	X-Box; Titel anpassbar durch XBOX_CAPTION
+	
+	* phonebook: als Bibliothek in den Callmonitor laden
+
+2006-04-02
+
+	callmonitor-0.8 veröffentlicht
+
+	Vorbereitungen für die Umstellung auf das JFritz-Interface
+
+2006-04-05
+
+	* callmonitor: Veraltetes Action-Interface entfernt: MSISDN, CALLER, CALLED
+
+2006-04-07
+
+	Umstellung auf das JFritz-Interface: Das telefon-Paket wird nicht mehr
+	benötigt; das Format der "Listeners" hat sich geändert.
+
+	* mail.sh: mail_missed_call existiert nicht mehr; durch "in:cancel ...
+	mailmessage ..." ersetzt.
+
+	English translation (Web interface and messages)
+
+	callmonitor-1.0 veröffentlicht
+
+2006-04-14
+
+	* if_jfritz.sh: Abschließendes "#" bei gewählten Rufnummern entfernen.
+	* dial.sh: Wählhilfe: dial NUMBER [PORT]
+	* callmonitor.cgi.sh: JFritz ein- und ausschalten direkt über das
+	Webinterface
+
+2006-04-17: Ostermontag
+
+	* callaction: Einfaches Skript, um Callmonitor-Aktionen von außerhalb
+	aufrufen zu können.
+
+2006-04-23:
+
+	* if_jfritz.sh: EXT-Wert wurde nicht von out:request zu out:cancel
+	übernommen.
+
+	* check: Syntax-Check für die Listeners
+
+	callmonitor-1.1 veröffentlicht
+
+2006-05-06:
+
+	* dial: Port wurde erst beim zweiten Aufruf richtig benutzt
+	(Reihenfolge der POST-Parameter ist wichtig)
+
+2006-05-13:
+
+	* getmsg: Versteht nun auch vollständige URLs:
+
+	    getmsg [OPTION]... <full-url-template> [<message>]...
+	    <full-url-template>    http://<authority><partial-url-template>
+	    <part-url-template>    e.g., /path/to/resource?query=string&message=%s
+	    <authority>            [user[:password]@]host[:port]
+
+	Bei der herkömmlichen Aufrufart können in ähnlicher Weise Port,
+	Benutzer und Passwort in einem Argument angegeben werden. Diese
+	Angaben überschreiben eventuell vorhandene Optionen (--port etc.).
+
+	    getmsg [OPTION]... <authority> <part-url-template> [<message>]...
+	    getmsg [OPTION]... -t <part-url-template> <authority> [<message>]...
+
+2006-05-14:
+
+	callmonitor-1.2 veröffentlicht
+
+2006-05-25:
+
+	* messages.sh: XBOX_CAPTION und DREAM_CAPTION vernünftig kodieren (URL
+	+ printf)
+
+2006-06-02:
+
+	* callmonitor.sh: for_leases funktionierte nicht, weil IFS einen
+	falschen Wert hatte (Dank an SeeDyX)
+
+2006-06-03:
+
+	callmonitor-1.3 veröffentlicht
+
+2006-06-24:
+
+	* reverse.sh: Rückwärtssuche alternativ bei wer-ist-dran.de oder
+	inverssuche.de (auf Konfigurationsseite auswählbar); bitte testen, ob
+	es bei irgendwelchen Nummern Fehler bei der Auflösung oder in der
+	Darstellung gibt!
+	* reverse.sh: Bei Verbindungsproblemen wurde fälschlicherweise das
+	leere Ergebnis gecachet (Dank an jesus.christ)
+
+	callmonitor-1.4 veröffentlicht
+
+2006-06-25:
+
+	* callmonitor: Neues Feld PROVIDER ("SIP0" etc. oder leer) wird
+	ausgewertet; wird zur Ermittlung eines passenden Namens für das lokale
+	Ende einer Verbindung benutzt. (Namen werden gecachet; nach Änderungen
+	der Einträge "username@registrar" im Telefonbuch muss der Callmonitor
+	neugestartet werden, damit die Einträge wirksam werden).
+	
+	Gematcht wird (in den Listeners) weiterhin (seit Firmware .04.06) die
+	MSN des Accounts, nicht mehr SIP0 etc.
+
+2006-06-30:
+
+	* messages.sh: relookmessage für DGStation Relook 400S (Geckow Web
+	Interface); Anzeigedauer über RELOOK_TIMEOUT. Es wird leider nur eine
+	kurze Zeile ohne Umlaute unterstützt. Vielen Dank an bolle fürs
+	Testen.
+
+	* if_jfritz.sh: CallMonitor-Schnittstelle wird nun automatisch
+	aktiviert.
+
+	* dial.sh: hangup-Funktion hinzugefügt (zum Abbrechen von
+	Anwahlversuchen)
+
+	* phonebook.sh: Call-by-Call-Vorwahlen (010...) erkennen und entfernen
+
+2006-07-??:
+
+	* net.sh: Ziemlich stark umgeschrieben, bitte testen. Die Umkodierung
+	von Nachrichten wird jetzt vom System übernommen. Die Nachrichten (auf
+	der Kommandozeile oder von default_*) werden in Latin-1 erwartet.
+
+2006-07-07:
+
+	* phonebook.sh: Suchreihenfolge geändert: Erst dauerhaftes, dann
+	flüchtiges Telefonbuch (fehlgeschlagene Rückwärtssuchen hatten
+	spätere Callers-Einträge verdeckt)
+
+2006-07-08:
+
+	callmonitor-1.5 veröffentlicht
+
+2006-09-10:
+
+	* reverse.sh: weristdran.de hat den Rückwärtssuche-Service
+	eingestellt.
+
+	* mail: Bei leerem Benutzernamen oder Passwort die entsprechenden
+	Optionen weglassen (Fehler bei T-Online; Dank an dbox2freak)
+
+	callmonitor-1.5.1 veröffentlicht
+
+2006-09-23:
+
+	* roku.sh: Funktionen für Roku SoundBridge: sbmessage zeigt eine Zeile
+	statischen Text an (mit SB_TIMEOUT kann die Dauer beeinflusst werden),
+	sbmarquee zeigt wiederholt einen Lauftext an (SB_TIMES bestimmt, wie
+	oft).
+
+	* rc.callmonitor: Callers und Listeners bei Initialisierung anlegen,
+	falls nicht vorhanden
+
+2006-09-27:
+
+	* reverse.sh: dasoertliche.de hat seine Webseiten umgestellt;
+	Anpassung
+
+2006-09-29:
+
+	* reverse.sh: www.dastelefonbuch.de und www.goyellow.de als neue
+	Rückwärtssuche-Provider
+
+2006-09-30:
+
+	callmonitor-1.6 veröffentlicht
+
+2006-10-01:
+
+	* dboxlcd.sh: Behebung eines dummen Fehlers bei internen Umstellungen
+	(Danke an Obi)
+
+	callmonitor-1.6.1 bereitgestellt
+
+2006-10-02:
+
+	* reverse.sh: Neuer Rückwärtssuche-Provider 11880; zusätzliche
+	Fallback-Suche nur nach Vorwahlen (bei Google)
+
+2006-10-08:
+
+	callmonitor 1.7 veröffentlicht
+
+2006-10-11:
+
+	* callmonitor.sh: Neue Variablen SOURCE_DISP und DEST_DISP mit
+	"anzeigefreundlicheren" Varianten von SOURCE und DEST (Landesvorwahl
+	weg, Call-by-Call-Vorwahlen weg, etc.)
+
+2006-11-03:
+
+	* format.sh: Funktion f_duration (1. Argument: Zeit in Sekunden, z.B.
+	$DURATION) zur Darstellung von Zeitdauern als "hh:mm:ss"
+
+2006-11-14:
+
+	* webui.sh: Fixed bug: uc/lc variable name (thanks to mic29)
+
+2006-11-17:
+	
+	* config.sh: Portfreigaben, WLAN oder SIP-Accounts an-/ausschalten:
+
+	    config forward 1 on  # 1. Portforwarding aktivieren
+	    config forward 3 off # 3. Portforwarding deaktivieren
+	    config wlan off      # WLAN aus
+	    config wlan on       # WLAN an
+	    config sip 4 on      # 4. SIP-Account aktivieren
+	    config sip 2 off     # 2. SIP-Account deaktivieren
+
+2006-11-18:
+
+	callmonitor 1.8 veröffentlicht
+
+2006-12-31:
+
+	* search_ch.sh: Rückwärtssuche bei tel.search.ch (für Nummern aus der
+	Schweiz); vielen Dank an niknak.
+
+2007-01-05:
+
+	callmonitor 1.8.1 veröffentlicht
+
+2007-02-24:
+
+	callmonitor 1.8.2 veröffentlicht:
+
+	* config.sh: Rufumleitungen schalten (config diversion 1 on)
+
+	* messages.sh: Aktion Advanced AYAC (ayac) für Gundalfs Client
+
+2007-02-25:
+
+	callmonitor 1.8.3:
+
+	* mail: Quoting von Shell-Metazeichen $ und ` beim Lesen der
+	Konfiguration (Danke an bsirius)
+
+2007-04-21:
+
+	callmonitor 1.9:
+
+	* dream2message: Nachricht für Dreamboxen mit Enigma 2; benutzt
+	Umgebungsvariablen DREAM_TIMEOUT (10) und DREAM_ICON (1). Danke an
+	kolbem.
+
+	* relookmessage: Mit neuer Version des Webinterfaces jetzt mehrzeilige
+	Nachrichten möglich. Danke an bolle.
+
+2007-04-28:
+
+	callmonitor 1.9.1:
+
+	* config: Die Konfiguration kann nun abgefragt werden: Einfach den
+	Wert weglassen; so gibt z.B. "config forward 1" einen der Werte "on",
+	"off" oder "error" (z.B. wenn es die Regel nicht gibt) aus.
+	Entsprechend funktionieren "config wlan", "config sip 2", etc. Danke
+	an silberwolf für die Anregung.
+
+2007-04-29:
+
+	callmonitor 1.9.2:
+
+	* reverse.sh: Auf Ergebnis der Fallback-Suche warten (Suche mit
+	dasoertliche und google hat manchmal kein Ergebnis geliefert, wenn
+	dasoertliche schneller als google war). Danke an GBuster und
+	silberwolf.
+
+2007-04-30:
+
+	callmonitor 1.9.3:
+
+	* phonebook: Optional auch das eingebaute Telefonbuch der Fritzbox
+	durchsuchen (nur Lesen!)
+
+	* webui.sh: Caching des Passworts; Login nur, wenn Passwort nicht-leer
+
+2007-05-01:
+
+	* cfg2sh: allcfgconv-Parser separiert (macht Fritzbox-Config verdaubar
+	für die Shell)
+
+2007-05-02:
+
+	* phonebook: Fehler bei Nutzung des FRITZ!Box-Telefonbuch behoben:
+	Umlaute als Latin1; Wichtig-Flag (!) entfernt; letzte Zeile behalten
+
+2007-05-05:
+
+	callmonitor 1.9.4 veröffentlicht
+
+2007-05-13:
+
+	* inverse.sh: Rückwärtssuche über inverssuche.de entfernt
+
+	* phonebook.sh: Ortsvorwahl automatisch aus AVM-Konfiguration übernehmen
+	(einzustellen unter Telefonie/Internettelefonie/Erweiterte Einstellungen)
+
+2007-05-17:
+
+	callmonitor 1.9.5 veröffentlicht
+
+2007-07-07:
+
+	callmonitor 1.9.6 (Preview): 
+
+	Maßnahmen gegen Abstürze wegen Überlastsituation beim Booten:
+
+	* phonebook: Caching des Telefonbuchs von AVM; wird jetzt nur einmal
+	beim Start des Callmonitors gelesen. Folge: Bei Änderungen des
+	AVM-Telefonbuchs muss der Callmonitor neugestartet werden, damit er
+	die Änderungen sieht.
+
+	* phonebook: Caching der Ortskennzahl
+
+	* sipnames: Sequentielles Eintragen der erzeugten Nummern
+
+2007-07-08:
+
+	* telefonbuch.sh: Rückwärtsuche bei dastelefonbuch.de an geändertes
+	Webseitenformat angepasst
+
+	* fonbuch.txt: Abfrage des AVM-Telefonbuchs repariert (Refresh fehlte)
+	
+	callmonitor 1.9.7 veröffentlicht
+
+2007-07-14:
+
+	* google.sh: Vorwahlsuche bei Google repariert
+
+	* testlookup.sh: Einfache Seite, um alle Rückwärtssuche-Provider
+	zu testen
+
+	* telefonbuch: Auf wget umgestellt, um zuverlässiger eine
+	Antwort zu bekommen
+	
+	* callmonitor.cfg: Default-Provider auf dasoertliche geändert
+
+2007-07-21:
+
+	* reverse.sh: Unterscheide besser zwischen "Teilnehmer nicht gefunden"
+	und Fehler bei der Abfrage: Nur "nicht gefunden" wird gecachet.
+
+	Immer die busybox-Version von 'nc' verwenden. (Es gibt jetzt ein
+	netcat-Paket im ds-mod, dessen 'nc' sich anders verhält.)
+
+2007-07-28:
+
+	callmonitor 1.10 veröffentlicht
+
+	* telefonbuch.sh: Verbessert für den Fall, dass es zwei oder mehr
+	Suchergebnisse gibt
+
+	* dasoertliche.sh: Findet jetzt auch Einträge, die wie manche
+	Firmeneinträge besonders hervorgehoben sind.
+
+2007-08-11:
+
+	* callmonitor: Rückwärtssuche-Cache bei Neustart des Callmonitors
+	löschen (um vermeintliche Fehler aufgrund geänderter
+	Rückwärtssuche-Parameter zu vermeiden)
+
+2007-08-12:
+
+	callmonitor 1.10.1 veröffentlicht
+
+2007-08-18:
+
+	* maint.cgi: Button, um den Rückwärtssuche-Cache manuell zu leeren.
+
+	* rc.callmonitor: Listener-Konversioncode entfernt (für Format vor
+	v1.0; wer so einen alten Callmonitor immer noch benutzt, ist selbst
+	schuld ;-))
+
+2007-09-15:
+
+	* config: "config wlan [on|off]" repariert
+
+	callmonitor 1.10.2 veröffentlicht
+
+2007-09-22:
+
+	* config.sh: Neue Funktion "pushservice", um genau diesen sofort
+	auszulösen.
+
+2007-10-07:
+
+	* messages.sh: xboxmessage verträgt neben Kommas auch keine
+	Semikolons, werden nun durch Punkt ersetzt (Danke an macknight)
+
+2008-03-22:
+
+	* config.sh: Neuer Pseudowert "toggle" schaltet zwischen "on" und
+	"off" um, z.B. "config forward 1 toggle", um das erste Portforwarding
+	im Wechsel an- und auszuschalten
+
+2008-03-28:
+
+	* config.sh: 'config dect' zum An- und Abschalten des DECT-Teils der
+	7270 ff.
+
+2008-03-29:
+
+	* reverse: Rückwärtssuche bei Google und DasTelefonbuch angepasst
+
+	callmonitor 1.10.3 veröffentlicht
+
+2008-04-19:
+
+	* Web interface: Kleine Performance-Steigerung
+
+2008-05-04:
+
+	* phonebook: Unterstützung für neue AVM-Telefonbücher (mit mehreren
+	Rufnummern pro Eintrag); Dank an wengi
+
+	* Makefile: Umstellung von Mod 'dsmod' auf 'freetz'
+
+2008-05-05:
+
+	callmonitor-1.11 veröffentlicht
+
+2008-05-16:
+
+	* net.sh: Option -m für getmsg: Schutz gegen zu viele Argumente
+
+2008-07-*:
+
+	* Unterstützung von verschiedenen Rückwärtssuche-Anbietern, je nach
+	Landesvorwahl; Speicherung in Callers im internationalen Format. Neue
+	Rückwärtssuchen für Österreich (telefonbuch.at) und USA (anywho.com)
+	als Beispiele.
+
+	* Die Priorität der Telefonbücher kann eingestellt werden (Callers vor
+	AVM (Standard) oder umgekehrt).
+
+	* fonbuch.txt: Neues AVM-Telefonbuch wurde manchmal nicht erkannt.
+
+	* getmsg.sh: Bessere Vermeidung von Fehlbedienungen (zu hohe Anzahl an
+	Nachrichten für das anzuwendende Template)
+
+2008-08-09:
+
+	* reverse: Neue Konvention für Telefonbucheinträge: Abtrennung der
+	Adresse mit Semikolon: "NAME; ADDRESS". Die Adresse ist nun separat in
+	*_ADDRESS verfügbar und nicht mehr in *_NAME enthalten. Der ganze
+	Telefonbucheintrag befindet sich in *_ENTRY (entspricht dem vorherigen
+	*_NAME)
+	
+	* testlookup: Links eingefügt, um die Rückwärtssuche-Seiten manuell zu
+	überprüfen
+
+2008-08-16:
+
+	callmonitor-1.12 zum öffentlichen Testen freigegeben
+
+2008-08-23:
+
+	* reverse_config: Es wurde fälschlicherweise immer der
+	Standardanbieter benutzt. (Dank an DennisBK75)
+
+	* webui: Unterstützung für neue query.txt-Schnittstelle; sollte den
+	Fehler bei aktuellen 7270-Labor-Firmwares beheben, dass die
+	Standortangaben nicht korrekt gelesen werden können. (Dank an
+	DennisBK75 und olistudent)
+
+	* webui: Kollision bei Funktionsnamen behoben (womöglich haben dadurch
+	einige POST-Requests nicht funktioniert, z.B. der Login)
+
+	callmonitor-1.12.2 (Bugfix-Release)
+
+2008-09-14:
+
+	* mail: Unterstützung für SSL/TLS
+	
+	* dream2message: Darstellung von Umlauten behoben (benötigt UTF-8)
+
+2008-09-20:
+
+	callmonitor-1.12.3
+
+2009-01-11:
+
+	* callaction: Kurze Kommandozeilenhilfe
+	* roku.sh: sbxmessage für mehrzeilige Nachrichten an SoundBridge
+
+2009-03-13:
+
+	* reverse: DasTelefonbuch und 11880 aktualisiert
+
+2009-03-15:
+
+	callmonitor-1.12.4
+
+2009-03-27:
+
+	* droptoggle/rc: toggle funktionierte nicht
+
+	callmonitor-1.12.5
+
+2009-04-10:
+
+	* reverse: GoYellow hat auf UTF8-Kodierung umgestellt
+	* phonebook: AVM-Telefonbuch wird nun intern als Baum gespeichert
+	=> relativ konstante Zugriffszeiten auch bei 1000 Einträgen
+	(Dank an Telefonmännchen)
+	* phonebook: Umlaute beim Lesen vom AVM-Telefonbuch korrigiert
+	(Kodierung wurde geändert)
+
+2009-05-09:
+
+	* reverse: DasÖrtliche hat seine Webseiten wieder einmal geändert:
+	Rückwärtssuche angepasst
+
+	callmonitor-1.13
+
+2009-05-31:
+
+	* webui.sh: Unterstützung der neuen Session-IDs
+
+	callmonitor-1.14
+
+2009-06-06:
+
+	* dbox*: Ersetzung von ";" und "&", die von der DBox nicht richtig
+	verarbeitet zu werden scheinen
+
+2009-08-??:
+
+	* if_jfritz: Automatisches Wählen (zur Aktivierung der Callmonitor-
+	Schnittstelle) im Sekundenabstand behoben; eigentliche Ursache für
+	wiederholtes Fehlschlagen ist noch unklar.
+
+	* recode: Von Shell- auf C-Implementierung umgestellt
+
+2009-08-16:
+
+	callmonitor-1.15
+
+2009-08-23:
+
+	* musicpal.sh: Aktionen für Freecom MusicPal (Internetradio):
+	    musicalpalmessage (benutzt MUSICPAL_TIMEOUT), musicpalclear
+	* goyellow: Rückwärtssuche an neue Webseite angepasst
+
+2009-08-30:
+
+	callmonitor-1.15.1
+
+	* Installation: Es können verschiedene Teilmengen der Callmonitor-
+	Funktionalität installiert werden:
+		
+	    webif	Web interface
+	    actions	Callmonitor actions (callable via 'callaction')
+	    monitor	Monitoring daemon 'callmonitor'
+	    phonebook	Phonebook support (and reverse lookup)
+
+2009-09-04:
+
+	* tel.sh: Bei der Normalisierung von Telefonnummern werden nun
+	vorausgewählte Gruppen, die in die Zeichen * oder # eingeschlossen
+	sind, entfernt (Anregung von ao)
+
+	* fshash.sh: Die Benutzung eines leeren AVM-Telefonbuch führte dazu,
+	dass das Telefonbuch immer wieder langwierig eingelesen wurde.
+
+2009-09-11:
+
+	callmonitor-1.16
+
+2010-02-21:
+
+	* webui.sh: Login bei Firmware 54.04.80 funktionierte nicht.
+	
+	* callmonitor: Bei Bedarf lassen sich nun die Anrufe auf einer anderen
+	Box überwachen als auf der, auf der der Callmonitor läuft.
+	
+	* cgi: Expertenmodus eingeführt, um selten benötigte Funktionen zu
+	verstecken.
+
+	* 11880.sh: 11880 hat seine Rückwärtssuche-Seiten überarbeitet.
+
+	callmonitor-1.17
+
+2010-02-24:
+
+	* callmonitor.sh: Argument --version eingeführt
+
+2010-04-09:
+
+	* modreg: Umstellung auf neue Datei-Registrierung; setzt aktuellen
+	Freetz-Trunk voraus.
+
+	callmonitor-1.17.1 für freetz-trunk
+
+2010-04-10:
+
+	* Weboberfläche: Alle internen Links korrigieren
+
+	callmonitor-1.17.2 für freetz-trunk
+
+2010-04-21:
+
+	* reverse: DasTelefonbuch und GoYellow angepasst
+
+2010-05-14:
+
+	callmonitor-1.17.3 für freetz-trunk
+
+2010-05-22:
+
+	* samsung.sh: Nachrichten an bestimmte TV-Geräte von Samsung (via SOAP)
+
+2010-05-24:
+
+	callmonitor-1.18
+
+	* goyellow.sh: Wieder verändert; erneut repariert.
+
+2010-06-13:
+
+	* samsung.sh: Bei der Aktion 'samsung' waren Quelle und Ziel
+	vertauscht.
+
+2010-06-20:
+
+	* webui.sh: Robustere Implementierung von webui_get
+
+2010-06-24:
+
+	callmonitor-1.18.1
+
+2010-07-24:
+
+	* local_ch.sh: 2. Schweizer Rückwärtssuche: tel.local.ch
+	* goyellow.sh: Rückwärtssuche bei GoYellow angepasst
+
+	callmonitor-1.18.2
+
+2010-08-02:
+
+	* reverse.cgi.sh: Make saving work (adapt to Freetz changes)
+
+	callmonitor-1.18.3
+
+2010-08-06:
+
+	* herold_at.sh: Neue Rückwärtssuche für Österreich (beta)
+
+	callmonitor-1.18.4
+
+	* telefonbuch_at.sh: O.Ö. Telefonbuchverlag hat seinen Server umbenannt:
+	  www.das-telefonbuch.at => www.dasschnelle.at
+
+	* herold_at.sh: Umlaute wurden verschluckt
+
+	callmonitor-1.18.5
+
+2010-08-27:
+
+	* reverse.cgi.sh: Make saving work (adapt to Freetz changes)
+
+	callmonitor-1.18.6
+
+2010-09-24:
+
+	* modreg daemon: Anpassung an Freetz
+	* allcfgconv -e: Robusteres Auslesen der Konfiguration bei einigen
+	Labor-Firmwares
+
+	callmonitor-1.18.7
