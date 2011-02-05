@@ -1,0 +1,2 @@
+## requires /usr/lib/cgi-bin/callmonitor.cgi
+## requires /etc/init.d/rc.callmonitor
